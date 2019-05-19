@@ -33,3 +33,5 @@
 
 # Gvim swp files
 *.swp
+
+.vscode/
