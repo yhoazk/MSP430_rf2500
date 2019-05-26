@@ -2,7 +2,7 @@
  * La board con el RF transciever tiene el micro MSP430F2274
  * */
 #include <msp430f2274.h>
-//#include <msp430.h>
+#include <msp430.h>
 
 
 void wait(void);

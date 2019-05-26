@@ -25,7 +25,9 @@ plus the debugger and some other tools.
 
 For fedora 30
 ```
-dnf install mspdebug
+dnf install mspdebug msp430-libc
+dnf install msp430-gcc msp430-libc msp430mcu msp430-binutils
+wget software-dl.ti.com/msp430/msp430_public_sw/mcu/msp430/MSPGCC/latest/exports/msp430-gcc-support-files-1.207.zip 
 ```
 
 Then download the tool chaing from TI: http://www.ti.com/tool/msp430-gcc-opensource
