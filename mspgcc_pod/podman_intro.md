@@ -9,10 +9,16 @@ to deploy containers.
 Given that `podman` has the same syntax as `docker` the command can be replaced
 with the next command in the `.bashrc`.
 
+```sh
+alias docker=podman
+```
+
 The term pod comes from Kubernetes which describes it as
 > An object that has one or more conteinerized process sharing multiple 
 
 ## `Dockerfile` 
+
+The `Dockerfile` contains the instructions to build a image, 
 
 Dockerfile reserved words:
 
@@ -23,25 +29,17 @@ Dockerfile reserved words:
 - `ENV`
 - `EXPOSE`
 
-
-
-```sh
-alias docker=podman
-```
-
 #### Show all the locally available containrs
 
 ```sh
 podman ps -a
 ```
 
-
 #### See what is a container doing with `top`
 
 ```sh
 podman top <container_id>
 ```
-
 
 #### View container logs
 
@@ -51,16 +49,13 @@ podman logs --latest
 
 #### Checkpoint the container
 
-
 ```sh
 # get the container from fedora
 podman pull registry.fedoraproject.org/fedora:30
 # run the container with an interactive session
 podman run -it registry.fedoraproject.org/fedora:30
 # Map the location of the binary into the container
-
 ```
-
 
 ## Example `Dockerfile`
 
@@ -141,6 +136,53 @@ Dockerfile podman_intro.md
 ```
 Install a binary inside the container and then checkpoint the container so it
 can be used in future compilations w/o rebuild
+
+
+### Common commands
+
+#### `pull`
+#### `push`
+#### `build`
+#### `run`
+#### `commit`
+
+Use a running image as checkpoint, example:
+
+```
+$ podman ps 
+CONTAINER ID  IMAGE                           COMMAND    CREATED             STATUS                 PORTS  NAMES
+b685386f8ba2  localhost/gcc_installed:latest  /bin/bash  About a minute ago  Up About a minute ago         charming_napier
+$ podman commit b685386f8ba2 <new_name>
+```
+
+Now a new image will be created with all the changes included and named `<new_name>`
+
+
+#### `tag`
+#### `rm`
+#### `rmi`
+
+### Empty mounted Volume
+
+When a volume is inside the container, SELinux blocks the read operations, in
+one option is to disable SELinux, with `sudo setenforce [ Enforcing | Permisive | 1 | 0 ]`
+which turns off the protection, but that is NOT recomended. Instead change the
+permision of the volume with the flag `:z` in the volume option.
+
+```sh
+podman run -v /home/user:/host_home:z fedora /bin/bash
+```
+
+The `:z` will execute: 
+
+```sh
+chcon -Rt svirt_sandbox_file_t /home/user
+```
+That tells selinux that that folder will be shared between containers, all
+containers will have R/W access to this folder.
+
+The option `Z` (uppercase), enables protection between containers, this bind
+is only R/W for the specific container.
 
 
 - - - 
