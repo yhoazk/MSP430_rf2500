@@ -184,6 +184,62 @@ containers will have R/W access to this folder.
 The option `Z` (uppercase), enables protection between containers, this bind
 is only R/W for the specific container.
 
+## Squash Images
+
+
+
+## Save Image
+
+Once we have a final image, it can be saved in a file.
+
+This saves the image `msp_gcc` to the archive `msp_gcc`
+
+```
+podman save localhost/msp_gcc:latest -o msp_gcc
+```
+
+Now we can clean all:
+* This remove all the images *
+```sh
+podman rmi -f -a 
+```
+
+This can also work:
+
+
+
+```
+podman images --quit | xargs -L1 -p podman rmi -f
+```
+
+## Restore image from file
+
+```
+$ podman load --input ./msp_gcc
+Getting image source signatures
+Copying blob ebded842e85f done
+Copying blob 90778c4e8a83 done
+Copying blob 592fc88f2320 done
+Copying blob 80ad3fbe7a6d done
+Copying blob 386083e14cf1 done
+Copying blob 4689d24eb2f1 done
+Copying config 910ef5f80a done
+Writing manifest to image destination
+Storing signatures
+Loaded image(s): localhost/msp_gcc:late
+```
+
+Now the image should be available:
+
+```
+$ podman images
+REPOSITORY          TAG      IMAGE ID       CREATED          SIZE
+localhost/msp_gcc   latest   910ef5f80a85   17 minutes ago   929 MB
+```
+
+
+
+
 
 - - - 
 
